@@ -97,6 +97,8 @@ class SchoolTest < Minitest::Test
   end
 
   def test_max_students_per_grade
+    #kept this simple and did not use a gem like Faker to generate names
+    #did want to generate different names though as this reflects the assumptions provided in the scenario
     letter = "a"
     20.times do
       school.add(letter.next, 4)
