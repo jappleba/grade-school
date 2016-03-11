@@ -26,7 +26,6 @@ class School
   end
 
   def to_h
-    sorted_array = self.db.sort
-    Hash[sorted_array]
+    Hash[self.db.sort]
   end
 end
