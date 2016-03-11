@@ -66,4 +66,43 @@ class SchoolTest < Minitest::Test
     assert_equal sorted, school.to_h
     assert_equal [3, 4, 6], school.to_h.keys
   end
+
+  def test_remove_student
+    [
+      ['Jennifer', 4], ['Kareem', 6],
+      ['Christopher', 4], ['Kyle', 3]
+    ].each do |name, grade|
+      school.add(name, grade)
+    end
+
+    school.remove('Kareem', 6)
+    school.remove('Jennifer', 4)
+    assert_equal [], school.db[6]
+    assert_equal ['Christopher'], school.db[4]
+  end
+
+  def test_graduate_students
+    [
+      ['Jennifer', 4], ['Kareem', 6],
+      ['Christopher', 4], ['Kyle', 3],
+      ['John', 8], ['Jake', 8]
+    ].each do |name, grade|
+      school.add(name, grade)
+    end
+    school.graduate
+    assert_equal ['Christopher', 'Jennifer'], school.db[5]
+    assert_equal ['Kareem'], school.db[7]
+    assert_equal nil, school.db[8]
+    assert_equal nil, school.db[9]
+  end
+
+  def test_max_students_per_grade
+    letter = "a"
+    20.times do
+      school.add(letter.next, 4)
+      letter = letter.next
+    end
+    assert_raises(Exception)  {school.add("z", 4)}
+  end
+
 end
