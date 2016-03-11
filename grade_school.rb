@@ -1,6 +1,5 @@
 require 'pry'
 class School
-  #changed to read and write the db since db will need to be updated
   attr_accessor :db
 
   def initialize
@@ -8,19 +7,17 @@ class School
   end
 
   def add(name, class_number)
-    self.grade(class_number).push(name)
+    self.grade(class_number).push(name).sort!
   end
 
   def grade(class_number)
-    #changed to check if the grade exists and create grade if it does not
     @db[class_number] ? @db[class_number] : @db[class_number] = []
   end
 
   def to_h
-    sorted_db = @db.map do |class_number, students|
-      students.sort!
-    end
-    binding.pry
-    Hash[sorted_db]
+    sorted_array = @db.map do |class_number, students|
+        [class_number,  students]
+    end.sort_by{|x| x[0]}
+    Hash[sorted_array]
   end
 end
